@@ -1,3 +1,4 @@
+import {GetStaticProps} from "next";
 import Head from "next/head";
 import Link from "next/link";
 import utilStyles from "../styles/utils.module.css";
@@ -5,7 +6,7 @@ import {getSortedPostsData} from "../lib/posts";
 import Layout, {siteTitle} from "../components/layout";
 import Date from "../components/date";
 
-export async function getStaticProps() {
+export const getStaticProps: GetStaticProps = async () => {
   // awaitしなくて大丈夫？？
   const allPostsData = getSortedPostsData();
   return {
@@ -13,7 +14,7 @@ export async function getStaticProps() {
       allPostsData,
     },
   };
-}
+};
 
 export default function Home({allPostsData}) {
   return (

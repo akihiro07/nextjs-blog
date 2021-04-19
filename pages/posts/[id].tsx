@@ -1,32 +1,41 @@
 import Head from "next/head";
+import {GetStaticProps, GetStaticPaths} from "next";
 import utilStyles from "../../styles/utils.module.css";
 import Layout from "../../components/layout";
 import Date from "../../components/date";
 import {getAllPostIds, getPostData} from "../../lib/posts";
 
 // idリストを取得
-export async function getStaticPaths() {
+export const getStaticPaths: GetStaticPaths = async () => {
   const paths = getAllPostIds();
   return {
     paths,
     fallback: false,
   };
-}
+};
 
 // static generation(プリレンダリング)(せい的ページ生成)
 // paramsでidを受け取る
-export async function getStaticProps({params}) {
+export const getStaticProps: GetStaticProps = async ({params}) => {
   //  await は promise が確定しその結果を返すまで、JavaScript を待機させる
   // getPostDataは`async`関数を使用する為、Pomiseが返ってくる
-  const postData = await getPostData(params.id);
+  const postData = await getPostData(params.id as string);
   return {
     props: {
       postData,
     },
   };
-}
+};
 
-export default function Post({postData}) {
+export default function Post({
+  postData,
+}: {
+  postData: {
+    title: string;
+    date: string;
+    contentHtml: string;
+  };
+}) {
   return (
     <Layout>
       <Head>

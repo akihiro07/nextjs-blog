@@ -26,7 +26,7 @@ export function getSortedPostsData() {
     // データを id と組み合わせる
     return {
       id,
-      ...matterResult.data,
+      ...(matterResult.data as {date: string; title: string}),
     };
   });
 
